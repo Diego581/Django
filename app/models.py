@@ -25,6 +25,12 @@ class Comment(models.Model):
     comment = models.CharField(max_length=255)
     creation_date= models.DateField()
 
+    def __str__(self) -> str:
+        return self.userId
+
 class Category(models.Model):
     category_name = models.CharField(max_length=20)
     postId = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.category_name
