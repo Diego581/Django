@@ -8,10 +8,23 @@
         
     </head>
   <body>
-        <nav class="text-white bg-dark">Hello, world!</nav>
-        <div>        
-            {% block contenido %}
-            {% endblock %}
+        <div class="row bg-warning">  
+            <nav class="text-white bg-dark">
+                <div class="col-3 text-center mt-1"><h4>  PIPS DJANGO!  </h4></div>
+            </nav>
+            <hr>
+            <div class="col-3 bg-dark text-white border-dark rounded">
+                <div  style="padding-left: 15px;">
+                    <h4 class=" text-center mt-1 mb-3">Categorias</h4>
+                        {% for c in categories %}
+                            <h5 class="mt-1 border border-white bg-secondary text-center">{{ c.category_name }} </h5>
+                        {% endfor %}
+                </div>    
+            </div>
+            <div class="col-9">        
+                {% block contenido %}
+                {% endblock %}
+            </div>  
         </div>
     </body>
 </html>

@@ -1,6 +1,16 @@
 from django.shortcuts import render
+from .models import User,Post, Comment, Category
 
-# Create your views here.
-
+# Index 
 def index(request):
-    return render(request, 'app/index.html')
+    all_posts = Post.objects.all().order_by('creation_date')
+    all_categories = Category.objects.all()
+    return(render (request, 'app/index.html', {'posteos': all_posts,'categories': all_categories}))
+
+# Post, it will return a post by his id, which will be in the url parameter, also it will get the comments related, an his category
+def post(request, id):
+    post = Post.objects.get(id=id) 
+    my_categories = Category.objects.filter(postId=id)
+    all_comments = Comment.objects.filter(postId=id)
+    return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': my_categories}))
+
