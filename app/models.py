@@ -23,7 +23,7 @@ class Comment(models.Model):
     userId = models.ForeignKey(User, on_delete=models.CASCADE)
     postId = models.ForeignKey(Post, on_delete=models.CASCADE)
     comment = models.CharField(max_length=255)
-    creation_date= models.DateField()
+    creation_date= models.DateField(auto_created=True)
 
     def __str__(self) -> str:
         return self.comment

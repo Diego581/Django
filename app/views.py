@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, Comments
 from .models import User,Post, Comment, Category
 from django.contrib.auth.models import User
 
@@ -11,11 +11,33 @@ def main_page(request):
 
 # Post, it will return a post by his id, which will be in the url parameter, also it will get the comments related, an his category
 def post(request, id):
+    # Posteo
     post = Post.objects.get(id=id) 
     my_categories = Category.objects.filter(postId=id)
     all_categories = Category.objects.all()
     all_comments = Comment.objects.filter(postId=id)
+    # Comentarios
+    data = {
+        'form': Comments()
+    }
+
+    if request.method == 'POST':
+        formulario = Comments(request.POST)
+        print(data)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('app/post/{id}.html') #Recargar post
+        else:
+            data['form'] = formulario
+
     return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': all_categories, 'categories2': my_categories}))
+
+
+
+
+
+
+
 def newpost(request, userId, categoryId):
     return render(request, 'app/new_post.html', {'userId': userId, 'categoryId': categoryId})
 
