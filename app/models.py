@@ -26,7 +26,7 @@ class Comment(models.Model):
     creation_date= models.DateField()
 
     def __str__(self) -> str:
-        return self.userId
+        return self.comment
 
 class Category(models.Model):
     category_name = models.CharField(max_length=20)

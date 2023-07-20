@@ -1,10 +1,21 @@
 from django.shortcuts import render, redirect
 from .forms import LoginForm, RegisterForm
+from .models import User,Post, Comment, Category
 
-# Create your views here.
+# main_page 
+def main_page(request):
+    all_posts = Post.objects.all().order_by('creation_date')
+    all_categories = Category.objects.all()
+    return(render (request, 'app/main_page.html', {'posteos': all_posts,'categories': all_categories}))
 
-def index(request):
-    return render(request, 'app/index.html')
+# Post, it will return a post by his id, which will be in the url parameter, also it will get the comments related, an his category
+def post(request, id):
+    post = Post.objects.get(id=id) 
+    my_categories = Category.objects.filter(postId=id)
+    all_categories = Category.objects.all()
+    all_comments = Comment.objects.filter(postId=id)
+    return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': all_categories, 'categories2': my_categories}))
+
 
 
 def login(request):
@@ -19,7 +30,7 @@ def login(request):
             if verifyUser():
                 formulario.save()
                 data["mensaje"] = "llegamo pa"
-                return redirect('nombreApp:index') #redireccionar a home
+                return redirect('nombreApp:main_page') #redireccionar a home
         else:
             data["form"] = formulario
 
@@ -39,8 +50,6 @@ def register(request):
         if formulario.is_valid():
             if verifyUser():
                 formulario.save()
-                return redirect('nombreApp:index') #redireccionar a home
+                return redirect('nombreApp:main_page') #redireccionar a home
         else:
             data["form"] = formulario
-
-    return render(request, 'app/register.html', data)
