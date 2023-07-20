@@ -11,6 +11,7 @@ def index(request):
 def post(request, id):
     post = Post.objects.get(id=id) 
     my_categories = Category.objects.filter(postId=id)
+    all_categories = Category.objects.all()
     all_comments = Comment.objects.filter(postId=id)
-    return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': my_categories}))
+    return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': all_categories, 'categories2': my_categories}))
 
