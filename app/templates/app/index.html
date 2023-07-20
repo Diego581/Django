@@ -1,25 +1,27 @@
 {% extends 'app/base.html' %}
 
+{% block users %}
+    <div class="row text-right">
+        <div class="col-10 invisible"></div>
+        {% if user.is_authenticated %}
+            <div class="col-1 bg-success border rounded border-dark">
+                <h6>User:{{ user.username }}</h6>
+            </div>
+            <div class="col-1 bg-danger border rounded border-dark">
+                <h6 ><a class="text-center text-decoration-none text-white" href="{% url 'logout' %}">Logout</a></h6>
+            </div>
+        {% else %}
+            <div class="col-2">
+                <h6><a class="text-center  text-decoration-none text-white bg-" href="{% url 'login' %}">Login</a></h6>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
 {% block index %}
-  <body>
-        <div class="row bg-warning">  
-            <nav class="text-white bg-dark">
-                <div class="col-3 text-center mt-1">
-                    <h4>  PIPS DJANGO!  </h4>
-                    <ul> 
-                    {% if user.is_authenticated %}
-                        <li><a href="{% url 'logout' %}">Logout</a></li>
-                        <li>
-                            <a href="#">@{{ user.username }}</a>
-                        </li>
-                    {% else %}
-                        <li> <a href="{% url 'login' %}">Login</a></li>
-                    {% endif %}
-                    </ul>
-                </div>
-                
-            </nav>
-            <hr>
+  <body class="bg-warning">
+    <div class="container">
+        <div class="row">
             <div class="col-3 bg-dark text-white border-dark rounded">
                 <div  style="padding-left: 15px;">
                     <h4 class=" text-center mt-1 mb-3">Categorias</h4>
@@ -33,6 +35,7 @@
                 {% endblock %}
             </div>  
         </div>
-    </body>
-
+    </div>
+</div>
+</body>
 {% endblock %}

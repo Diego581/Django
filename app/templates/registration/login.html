@@ -1,35 +1,26 @@
 {% extends 'app/base.html' %}
 {% block index %}
-        <div>
-            <div class="col">
-                <div class="col-12 col-md-6 offset-md-3">
-                    <br>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="col-12 col-md-6 offset-md-3">
-                                <div class="row">
-                                    <h1>Login</h1>
-                                    <hr>
-                                    <form action="" method="post">
-                                        {% csrf_token %}
-                                        {{ form }}
-                                        
-                                        
-                                        <br>
-                                        <div class="dflex justify-content-center offset-md-3">
-                                            <button type="submit" class="btn btn-secondary"><a href="/register" class="text-decoration-none text-white">Register</a></button>                       
-                                            <button type="submit" class="btn btn-primary">Login</button>
-                                            
-                                        </div>        
-                
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="bg-warning" style="margin-top: -15px;">
+    <div class="container text-center">
+        <div class="row">
+            <br>
+            <div class="col-6 offset-md-3">
+                <div class="card mt-5">
+                    <div class="card-body rounded bg-dark text-light">
+                        <h1>Login</h1>
+                        <hr>
+                        <form class="text-center" action="" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <hr>
+                            <button type="" class="btn btn-success"><a href="/register" class="text-decoration-none text-white">Register</a></button>                       
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
+                    {{mensaje}}
                 </div>
-            
+            </div>
             </div>
         </div>
-    </body>
+    </div>
+</div>
 {% endblock %}
