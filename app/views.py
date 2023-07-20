@@ -15,9 +15,10 @@ def post(request, id):
     all_categories = Category.objects.all()
     all_comments = Comment.objects.filter(postId=id)
     return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': all_categories, 'categories2': my_categories}))
+def newpost(request, userId, categoryId):
+    return render(request, 'app/new_post.html', {'userId': userId, 'categoryId': categoryId})
 
-
-
+# Login page
 def login(request):
 
     data = {

@@ -1,0 +1,14 @@
+{% extends 'app/index.html' %}
+
+{% block contenido %}
+        <div class="container">  
+            <div class="row">
+                <div>
+                    {{categories.name}}
+                    {% for c in categories %}
+                        <h4>{{ c.categories.name }}</h4>
+                    {% endfor  %}
+                </div>
+            </div>
+        </div>
+{% endblock %}
