@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .forms import LoginForm, RegisterForm
 from .models import User,Post, Comment, Category
+from django.contrib.auth.models import User
 
-# main_page 
+# main_page
 def main_page(request):
     all_posts = Post.objects.all().order_by('creation_date')
     all_categories = Category.objects.all()
@@ -25,27 +26,32 @@ def login(request):
     }
 
     if request.method == 'POST':
-        formulario = LoginForm(data=request.POST)
+        formulario = LoginForm(request.POST)
         if formulario.is_valid():
             formulario.save()
             return redirect('nombreApp:index') #redireccionar a home
         else:
             data["form"] = formulario
-
-    return render(request, 'app/login.html', data)
+    return render(request, 'app/registration/login.html', data)
 
 def register(request):
 
     data = {
         'form': RegisterForm()
     }
-
     if request.method == 'POST':
         formulario = RegisterForm(data=request.POST)
         if formulario.is_valid():
-            formulario.save()
-            return redirect('nombreApp:index') #redireccionar a home
+            username = request.POST['username']
+            email = request.POST['user_email']
+            password = request.POST['password']
+            try:
+                User.objects.create_user(username,email,password)
+                formulario.save()
+                return redirect('/accounts/login') #redireccionar a home
+            except:
+                ValueError
+                data["mensaje"] = "Usuario ya existente!"
         else:
             data["form"] = formulario
-
     return render(request, 'app/register.html', data)
