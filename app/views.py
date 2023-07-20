@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, CommentForm
 from .models import User,Post, Comment, Category
 
 # main_page 
@@ -14,6 +14,9 @@ def post(request, id):
     my_categories = Category.objects.filter(postId=id)
     all_categories = Category.objects.all()
     all_comments = Comment.objects.filter(postId=id)
+    data = {
+        'form' : CommentForm()
+    }
     return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': all_categories, 'categories2': my_categories}))
 
 

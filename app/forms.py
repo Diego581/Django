@@ -1,5 +1,6 @@
 from django import forms
 from .models import User
+from .models import Comment
 from django.utils.translation import gettext as _
 
 class LoginForm(forms.ModelForm):
@@ -22,4 +23,10 @@ class RegisterForm(forms.ModelForm):
             "user_email" : forms.TextInput(attrs={"class": "form-control"}),
             "password" : forms.TextInput(attrs={"class": "form-control"})
         }
+        
+class CommentForm (forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
         
