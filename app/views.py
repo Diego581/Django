@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import LoginForm, RegisterForm
 from .models import User,Post, Comment, Category
-
+from django.contrib.auth.models import User
 # main_page 
 def main_page(request):
     all_posts = Post.objects.all().order_by('creation_date')
@@ -10,6 +10,8 @@ def main_page(request):
 
 # Post, it will return a post by his id, which will be in the url parameter, also it will get the comments related, an his category
 def post(request, id):
+    if id == 1:
+        print('tumama')
     post = Post.objects.get(id=id) 
     my_categories = Category.objects.filter(postId=id)
     all_categories = Category.objects.all()
