@@ -1,25 +1,37 @@
 {% extends 'app/base.html' %}
 
 {% block index %}
-  <body class="bg-warning">
-        <div>  
-            <div class="container">
-                <div class="row">
-                    <div class="col-3">
-                        <div class="bg-dark text-white border-dark rounded" style="padding: 2%; height: 100%;">
-                            <h4 class=" text-center mt-1 mb-3">Categorias</h4>
-                            {% for c in categories %}
-                                <h5 class="mt-1 border border-white bg-secondary text-center">{{ c.category_name }}</h5>
-                            {% endfor %}
-                        </div>    
-                    </div>
-                    <div class="col-9">        
-                        {% block contenido %}
-                        {% endblock %}
-                    </div>  
-
+  <body>
+        <div class="row bg-warning">  
+            <nav class="text-white bg-dark">
+                <div class="col-3 text-center mt-1">
+                    <h4>  PIPS DJANGO!  </h4>
+                    <ul> 
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                        <li>
+                            <a href="#">@{{ user.username }}</a>
+                        </li>
+                    {% else %}
+                        <li> <a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+                    </ul>
                 </div>
+                
+            </nav>
+            <hr>
+            <div class="col-3 bg-dark text-white border-dark rounded">
+                <div  style="padding-left: 15px;">
+                    <h4 class=" text-center mt-1 mb-3">Categorias</h4>
+                        {% for c in categories %}
+                            <h5 class="mt-1 border border-white bg-secondary text-center">{{ c.category_name }} </h5>
+                        {% endfor %}
+                </div>    
             </div>
+            <div class="col-9">        
+                {% block contenido %}
+                {% endblock %}
+            </div>  
         </div>
     </body>
 
