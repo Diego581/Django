@@ -27,17 +27,12 @@ def login(request):
     if request.method == 'POST':
         formulario = LoginForm(data=request.POST)
         if formulario.is_valid():
-            if verifyUser():
-                formulario.save()
-                data["mensaje"] = "llegamo pa"
-                return redirect('nombreApp:main_page') #redireccionar a home
+            formulario.save()
+            return redirect('nombreApp:index') #redireccionar a home
         else:
             data["form"] = formulario
 
     return render(request, 'app/login.html', data)
-
-def verifyUser():
-    return True
 
 def register(request):
 
@@ -48,9 +43,8 @@ def register(request):
     if request.method == 'POST':
         formulario = RegisterForm(data=request.POST)
         if formulario.is_valid():
-            if verifyUser():
-                formulario.save()
-                return redirect('nombreApp:main_page') #redireccionar a home
+            formulario.save()
+            return redirect('nombreApp:index') #redireccionar a home
         else:
             data["form"] = formulario
 

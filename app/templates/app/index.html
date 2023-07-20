@@ -4,7 +4,20 @@
   <body>
         <div class="row bg-warning">  
             <nav class="text-white bg-dark">
-                <div class="col-3 text-center mt-1"><h4>  PIPS DJANGO!  </h4></div>
+                <div class="col-3 text-center mt-1">
+                    <h4>  PIPS DJANGO!  </h4>
+                    <ul> 
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url logout %}">Logout</a></li>
+                        <li>
+                            <a href="#">@{{ user.username }}</a>
+                        </li>
+                    {% else %}
+                        <li> <a href="{% url login %}">Login</a></li>
+                    {% endif %}
+                    </ul>
+                </div>
+                
             </nav>
             <hr>
             <div class="col-3 bg-dark text-white border-dark rounded">
