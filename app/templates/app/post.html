@@ -7,8 +7,8 @@
 </marquee>
 {% endblock %}
 
-{%block secondary%}
-<div class="conteiner bg-warning">
+{%block contenido%}
+<div class="conteiner bg-warning" style="margin-left: 10px;">
     <div class="row">
         <h2 class="text-center col-9  display-6" path>{{post.title}}</h2>
     </div>
@@ -33,11 +33,11 @@
 <div class="container bg-secondary"></div>
     <div class="text-center"><h4>Comentarios</h4></div> 
     <hr>
-    <div class="row" st>
+    <div class="row"  style="margin-left: 10px;">
         {% for c in comments %}
             <h6 class="col-2 mt-1 text-center bg-primary border border-primary rounded-left text-white" style="border-top-left-radius: 3px; border-bottom-left-radius: 3px;">{{ c.creation_date }}</h6>
             <h5 class="col-8 mt-1 bg-secondary text-white">{{ c.comment }}</h5>
-            <h6 class="col-2 mt-1 bg-dark text-white border border-dark" style="border-top-right-radius: 3px; border-bottom-right-radius: 3px;">{{ c.userId }}</h6>
+            <h6 class="col-2 mt-1 bg-dark text-white border border-dark" style="border-top-right-radius: 3px; border-bottom-right-radius: 3px; padding-left: 5px; padding-right: 5px;">{{ c.userId }}</h6>
         {% endfor %}
     </div>
        
