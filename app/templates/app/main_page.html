@@ -1,0 +1,18 @@
+{% extends 'app/base.html' %}
+
+{% block contenido %}
+        <div class="container">  
+            <div class="row bg-dark text-white border-dark border-top rounded-top">
+                <div class="col-9 text-center"><h2>Titulo</h2></div>
+                <div class="col-3 text-center"><h2>Fecha</h2></div>
+            </div>
+            <div class="row border border-dark rounded-bottom">
+                {% for p in posteos %}
+                    <div class="col-9 text-left bg-secondary"><a class="text-decoration-none text-dark" href="post/{{ p.id }}"><h3 class="mt-1 display-6">{{ p.title }} </h3></div></a> 
+                    <div class="col-3 text-center bg-primary"><h3 class="mt-1 display-6">{{ p.creation_date }}</h3></div>
+                    <div class="col-12 invisible">Espacio</div>
+                {% endfor %}
+            </div>
+    </div>
+</div>
+{% endblock %}
