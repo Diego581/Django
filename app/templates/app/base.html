@@ -4,27 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Bootstrap demo</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-        
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"> 
     </head>
-  <body>
-        <div class="row bg-warning">  
-            <nav class="text-white bg-dark">
-                <div class="col-3 text-center mt-1"><h4>  PIPS DJANGO!  </h4></div>
-            </nav>
-            <hr>
-            <div class="col-3 bg-dark text-white border-dark rounded">
-                <div  style="padding-left: 15px;">
-                    <h4 class=" text-center mt-1 mb-3">Categorias</h4>
-                        {% for c in categories %}
-                            <h5 class="mt-1 border border-white bg-secondary text-center">{{ c.category_name }} </h5>
-                        {% endfor %}
-                </div>    
-            </div>
-            <div class="col-9">        
-                {% block contenido %}
-                {% endblock %}
-            </div>  
-        </div>
-    </body>
+    {% block index %}
+    {% endblock %}
 </html>
