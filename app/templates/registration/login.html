@@ -1,20 +1,20 @@
-{%extends 'app/base.html' %}
-
+{% extends 'app/base.html' %}
 {% block index %}
-<div class="bg-warning">
+<div class="bg-warning" style="margin-top: -15px;">
     <div class="container text-center">
         <div class="row">
             <br>
             <div class="col-6 offset-md-3">
                 <div class="card mt-5">
                     <div class="card-body rounded bg-dark text-light">
-                        <h1>Register</h1>
+                        <h1>Login</h1>
                         <hr>
-                        <form action="" class="" method="post">
+                        <form class="text-center" action="" method="post">
                             {% csrf_token %}
-                            {{ form }}
+                            {{ form.as_p }}
                             <hr>
-                                <button type="submit" class="btn btn-success btn-lg btn-block">Register</button>                       
+                            <button type="" class="btn btn-success"><a href="/register" class="text-decoration-none text-white">Register</a></button>                       
+                            <button type="submit" class="btn btn-primary">Login</button>
                         </form>
                     {{mensaje}}
                 </div>

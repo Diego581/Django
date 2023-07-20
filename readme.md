@@ -1,4 +1,5 @@
 How to run the APP:
+    pip install -r requirements.txt
     python manage.py runserver
 
 Can manage CRUD operation on the Models at: 

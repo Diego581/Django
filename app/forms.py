@@ -6,7 +6,7 @@ from django.utils.translation import gettext as _
 class LoginForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username','password']
+        fields = ['username', 'password']
 
         widgets = {
             "username" : forms.TextInput(attrs={"class": "form-control"}),
