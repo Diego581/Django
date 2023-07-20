@@ -1,3 +1,5 @@
+Our .gitignore file is a template from: https://www.toptal.com/developers/gitignore/api/django
+
 How to run the APP:
     pip install -r requirements.txt
     python manage.py runserver
