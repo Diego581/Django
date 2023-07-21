@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Comment
+from .models import User, Comment, Post
 from django.utils.translation import gettext as _
 
 class LoginForm(forms.ModelForm):
@@ -30,4 +30,14 @@ class Comments(forms.ModelForm):
 
         widget = {
             'comment': forms.TextInput(attrs={"class": "form-control"}),
+        }
+
+class NewPost(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = '__all__'
+
+        widget = {
+            'title':  forms.TextInput(attrs={"class": "form-control"}),
+            'info': forms.TextInput(attrs={"class": "form-control"}),
         }
