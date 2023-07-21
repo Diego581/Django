@@ -38,6 +38,7 @@ class NewPost(forms.ModelForm):
         fields = '__all__'
 
         widget = {
+            'userId': forms.CharField(widget= forms.TextInput(attrs={"class": "form-control","id":"some_id"})),
             'title':  forms.TextInput(attrs={"class": "form-control"}),
             'info': forms.TextInput(attrs={"class": "form-control"}),
         }

@@ -30,27 +30,23 @@ def post(request, id):
         else:
             data['form'] = formulario
 
-    return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': all_categories, 'categories2': my_categories, 'data': data, 'owner': owner}))
+    return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': all_categories, 'categories2': my_categories, 'data': data, 'myId': id}))
 
 # New Post
 def newpost(request):
     all_categories = Category.objects.all()
-    current_user = request.user
-    print ('el usuario actual es:',current_user.id)
     # Datos del Post
     data = {
         'form': NewPost()
     }
     if request.method == 'POST':
         formulario = NewPost(request.POST)
-        print(formulario)
         if formulario.is_valid():
-            print('se guardo el form')
+            print('Se guardo un nuevo formulario de user_id:', request.user)
             formulario.save()
             return redirect('nombreApp:index') #redireccionar a home
         else:
             data["form"] = formulario
-            print('error')
     return render(request, 'app/new_post.html', {'categories': all_categories, 'data': data})
 
 
