@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import main_page, login, register, post, newpost, deletepost
+from .views import main_page, login, register, post, newpost, deletepost, deletecomment
 
 app_name = 'nombreApp'
 urlpatterns = [
@@ -8,5 +8,6 @@ urlpatterns = [
     path('register/', register, name= 'register'),
     path('post/<int:id>', post, name='post'),
     path('newpost/', newpost, name='newpost'),
-    path('deletepost/<int:id>', deletepost, name='deletepost'),
+    path('post/deletepost/<int:id>', deletepost, name='deletepost'),
+    path('post/deletecomment/<int:id>', deletecomment, name='deletepost'),
 ]

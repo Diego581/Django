@@ -2,8 +2,10 @@
 
 {% block users %}
     <div class="row text-right" style="width: 100%;">
-        <div class="col-10 invisible"></div>
+        <div class="col-8 invisible"></div>
         {% if user.is_authenticated %}
+            {% block newpost %}
+            {% endblock %}
             <div class="col-1 bg-success border rounded border-dark">
                 <h6>User:{{ user.username }}</h6>
             </div>

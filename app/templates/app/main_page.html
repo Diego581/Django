@@ -1,4 +1,11 @@
 {% extends 'app/index.html' %}
+{% if user.is_authenticated %}
+    {% block newpost %}
+        <div class="col-2">
+            <a href="newpost" class="btn btn-success">Crear un post!</a>
+        </div>
+    {% endblock %}
+{% endif %}
 
 {% block contenido %}
         <div class="container">  
