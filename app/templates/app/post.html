@@ -25,6 +25,12 @@
                 {% for c in categories2 %}
                         <h6 class="text-center bg-white text-dark mt-2">{{c.category_name}}</h6>
                 {% endfor %}
+                {% if user.is_authenticated %}
+                    {% if user.id == owner.id %}
+                        <button type="submit" class="btn btn-danger">Delete Post!</button>
+                        {{owner.id}}
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>

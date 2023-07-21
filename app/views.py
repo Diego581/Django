@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import LoginForm, RegisterForm, Comments, NewPost
 from .models import User,Post, Comment, Category
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 # main_page
 def main_page(request):
@@ -12,7 +13,7 @@ def main_page(request):
 # Post, it will return a post by his id, which will be in the url parameter, also it will get the comments related, an his category
 def post(request, id):
     # Posteo
-    post = Post.objects.get(id=id) 
+    post = Post.objects.get(id=id)
     my_categories = Category.objects.filter(postId=id)
     all_categories = Category.objects.all()
     all_comments = Comment.objects.filter(postId=id)
@@ -20,16 +21,16 @@ def post(request, id):
     data = {
         'form': Comments()
     }
-
+    owner = Post.objects.filter(userId = id)
+    print(owner)
     if request.method == 'POST':
         formulario = Comments(request.POST)
-        print(data)
         if formulario.is_valid():
             formulario.save()
         else:
             data['form'] = formulario
 
-    return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': all_categories, 'categories2': my_categories, 'data': data}))
+    return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': all_categories, 'categories2': my_categories, 'data': data, 'owner': owner}))
 
 # New Post
 def newpost(request):
@@ -51,6 +52,12 @@ def newpost(request):
             data["form"] = formulario
             print('error')
     return render(request, 'app/new_post.html', {'categories': all_categories, 'data': data})
+
+
+def deletepost(request, id):
+    posteo = get_object_or_404(Post, id=id)
+    posteo.delete()
+    return redirect(to="index")
 
 # Login page
 def login(request):
