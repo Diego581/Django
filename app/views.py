@@ -17,12 +17,19 @@ def post(request, id):
     my_categories = Category.objects.filter(postId=id)
     all_categories = Category.objects.all()
     all_comments = Comment.objects.filter(postId=id)
+    comparador = post.userId.id
+    owner = 300
+    try: 
+        owner = User.objects.get(id = comparador)
+        owner = owner.id
+    except:
+        ValueError
+    print(owner, 'current user: ', request.user.id)
     # Comentarios
     data = {
         'form': Comments()
     }
-    owner = Post.objects.filter(userId = id)
-    print(owner)
+
     if request.method == 'POST':
         formulario = Comments(request.POST)
         if formulario.is_valid():
@@ -30,7 +37,7 @@ def post(request, id):
         else:
             data['form'] = formulario
 
-    return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': all_categories, 'categories2': my_categories, 'data': data, 'myId': id}))
+    return(render (request, 'app/post.html', {'post': post ,'comments': all_comments,'categories': all_categories, 'categories2': my_categories, 'data': data, 'owner': owner, 'postId': id}))
 
 # New Post
 def newpost(request):
@@ -49,11 +56,24 @@ def newpost(request):
             data["form"] = formulario
     return render(request, 'app/new_post.html', {'categories': all_categories, 'data': data})
 
-
+# Delete Post
 def deletepost(request, id):
-    posteo = get_object_or_404(Post, id=id)
-    posteo.delete()
-    return redirect(to="index")
+    post = Post.objects.get(id=id)
+    try:
+        post.delete()
+        return redirect('nombreApp:index')
+    except:
+        ValueError
+
+# Delete Comment
+def deletecomment(request,id):
+    comment = Comment.objects.get(id=id)
+    try:
+        comment.delete()
+        return redirect('nombreApp:index')
+    except:
+        ValueError
+
 
 # Login page
 def login(request):
