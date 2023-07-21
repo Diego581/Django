@@ -6,7 +6,7 @@ Can manage CRUD operation on the Models at:
 http://127.0.0.1:8000/admin/
 
 *Superuser*:
-- Email:  i.cardozo@itecriocuarto.org.ar
+- Email:  admin@mail.com
 - User:   admin
 - Pass:   admin
 
