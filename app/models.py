@@ -14,7 +14,7 @@ class Post(models.Model):
     userId = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     info = models.CharField(max_length=1250)
-    creation_date = models.DateField()
+    creation_date = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.title
@@ -23,7 +23,7 @@ class Comment(models.Model):
     userId = models.ForeignKey(User, on_delete=models.CASCADE)
     postId = models.ForeignKey(Post, on_delete=models.CASCADE)
     comment = models.CharField(max_length=255)
-    creation_date= models.DateField()
+    creation_date= models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.comment

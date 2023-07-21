@@ -34,6 +34,14 @@
     <div class="text-center"><h4>Comentarios</h4></div> 
     <hr>
     <div class="row"  style="margin-left: 10px;">
+        {% if user.is_authenticated %}
+            <form class="text-center" action="" method="post">
+                {% csrf_token %}
+                {{data.form}}
+                <hr>
+                <button type="submit" class="btn btn-success">Publicar</button>
+            </form>
+        {% endif %}
         {% for c in comments %}
             <h6 class="col-2 mt-1 text-center bg-primary border border-primary rounded-left text-white" style="border-top-left-radius: 3px; border-bottom-left-radius: 3px;">{{ c.creation_date }}</h6>
             <h5 class="col-8 mt-1 bg-secondary text-white">{{ c.comment }}</h5>

@@ -1,13 +1,25 @@
-{% extends 'app/base.html' %}
+{% extends 'app/index.html' %}
 
-{% block secondary %}
-<body>
+{% block contenido %}
+<div style="margin-top: -15px;">
+    <h1>userid:{{ user.id }}</h1> 
     <div class="container">   
-        <div class="row bg-secondary">  
-            {{userId}} {{categoryId}}
+        <div class="row">  
+            <div class="card-body rounded bg-dark text-light">
+                <h1 style="margin-left: 10px;">New Post!</h1>
+                <hr>
+                <form class="text-center" action="" method="post">
+                    {% csrf_token %}
+                    {{user.id}}
+                    <h3 selected value="{{user.id}}">id{{data.form.userId}}</h3>
+                    <h1>titulo</h1>{{data.form.title}}
+                    <h1>info</h1>{{data.form.info}}
+                    <hr>
+                    <button type="submit" class="btn btn-success">Publicar</button>
+                </form>
+            </div>
         </div>
     </div>
-</body>
-
+</div>
 {% endblock %}
 
