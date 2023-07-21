@@ -8,13 +8,32 @@
             <div class="card-body rounded bg-dark text-light">
                 <h1 style="margin-left: 10px;">New Post!</h1>
                 <hr>
-                <form class="text-center" action="" method="post">
+                <form class="text-center" action="" method="POST">
                     {% csrf_token %}
-                    {{user.id}}
-                    <h3 selected value="{{user.id}}">id{{data.form.userId}}</h3>
-                    <h1>titulo</h1>{{data.form.title}}
-                    <h1>info</h1>{{data.form.info}}
-                    <hr>
+                    <div class="invisible">
+                        <tr>
+                            <th><label for="id_userId">UserId:</label></th>
+                                <select name="userId" required id="id_userId"><option value="{{user.id}}" selected>{{user.username}}</option></select>
+                            </td>
+                        </tr>
+                    </div>
+                    <div class="col-12">
+                        <tr>
+                            <h4><th><label for="id_title">Titulo</label></th></h4>
+                            <td>
+                                <h6><input type="text" name="title" value="" maxlength="50" required id="id_title" style="height: 25px;"><h6>
+                            </td>
+                        </tr>
+                    </div>
+                    <div class="col-12">
+                        <tr>
+                            <h4><th><label for="id_info">Info</label></th></h4>
+                            <td>
+                            <input type="text" name="info" value="asdsad" maxlength="1250" required id="id_info">
+                            </td>
+                        </tr>
+                    </div>
+                    
                     <button type="submit" class="btn btn-success">Publicar</button>
                 </form>
             </div>
@@ -22,4 +41,5 @@
     </div>
 </div>
 {% endblock %}
+
 
