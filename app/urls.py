@@ -7,7 +7,7 @@ app_name = 'nombreApp'
 # Creando el enrutador y registrando tus ViewSets
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
-router.register(r'posts', PostViewSet)
+router.register(r'posts', PostViewSet, basename='post')
 router.register(r'comments', CommentViewSet)
 router.register(r'categories', CategoryViewSet)
 
