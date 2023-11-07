@@ -3,6 +3,12 @@ from .forms import LoginForm, RegisterForm, Comments, NewPost
 from .models import User,Post, Comment, Category
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from rest_framework import viewsets
+from .models import User, Post, Comment, Category
+from .serializers import UserSerializer, PostSerializer, CommentSerializer, CategorySerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+
 
 # main_page
 def main_page(request):
@@ -92,3 +98,35 @@ def register(request):
         else:
             data["form"] = formulario
     return render(request, 'app/register.html', data)
+
+#view set de user
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+#view set de post
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+#view set de comment
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+#view set de category
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+#Autenticacion
+class PostViewSet(viewsets.ModelViewSet):
+    ...
+    authentication_classes = [TokenAuthentication]
+
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            self.permission_classes = [IsAuthenticated, ]
+        return super(PostViewSet, self).get_permissions()
+
