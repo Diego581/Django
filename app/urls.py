@@ -4,7 +4,7 @@ from .views import main_page, login_view, register_view, post, newpost, deletepo
 from .views import PostViewSet, CommentViewSet, CreateUserView, CustomObtainAuthToken
 from .views import CustomObtainAuthToken
 
-
+#Urls de la api de post y comentarios
 router = routers.DefaultRouter()
 router.register(r'posts', PostViewSet)
 router.register(r'comments', CommentViewSet)

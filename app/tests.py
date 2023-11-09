@@ -3,6 +3,8 @@ from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from .models import Post, Comment
 
+#Todos los test para la api
+
 class CommentTests(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpassword')

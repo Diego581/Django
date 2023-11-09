@@ -4,10 +4,14 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 from .models import Comment, Post
 
+
+
+#Formulario del login
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), label=_("Username"))
     password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}), label=_("Password"))
 
+#Formulario de comment
 class Comments(forms.ModelForm):
     class Meta:
         model = Comment
@@ -17,6 +21,7 @@ class Comments(forms.ModelForm):
             'comment': forms.TextInput(attrs={"class": "form-control"}),
         }
 
+#Formulario del new post
 class NewPost(forms.ModelForm):
     class Meta:
         model = Post
@@ -28,6 +33,7 @@ class NewPost(forms.ModelForm):
             'info': forms.TextInput(attrs={"class": "form-control"}),
         }
 
+#Formulario del register
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()

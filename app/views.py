@@ -110,6 +110,10 @@ def register_view(request):
         form = CustomUserCreationForm()
     return render(request, 'app/register.html', {'form': form})
 
+
+
+#VISTAS DESDE LA API
+
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
