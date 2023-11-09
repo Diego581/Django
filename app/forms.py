@@ -1,34 +1,19 @@
 from django import forms
-from .models import User, Comment, Post
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
+from .models import Comment, Post
 
-class LoginForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['username', 'password']
+class LoginForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), label=_("Username"))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}), label=_("Password"))
 
-        widgets = {
-            "username" : forms.TextInput(attrs={"class": "form-control"}),
-            "password" : forms.TextInput(attrs={"class": "form-control"})
-        }
-
-class RegisterForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = '__all__'
-
-        widgets = {
-            "username" : forms.TextInput(attrs={"class": "form-control"}),
-            "user_email" : forms.TextInput(attrs={"class": "form-control"}),
-            "password" : forms.TextInput(attrs={"class": "form-control"})
-        }
-        
 class Comments(forms.ModelForm):
     class Meta:
         model = Comment
         fields = '__all__'
 
-        widget = {
+        widgets = {
             'comment': forms.TextInput(attrs={"class": "form-control"}),
         }
 
@@ -37,8 +22,20 @@ class NewPost(forms.ModelForm):
         model = Post
         fields = '__all__'
 
-        widget = {
-            'userId': forms.CharField(widget= forms.TextInput(attrs={"class": "form-control","id":"some_id"})),
-            'title':  forms.TextInput(attrs={"class": "form-control"}),
+        widgets = {
+            'userId': forms.TextInput(attrs={"class": "form-control", "id": "some_id"}),
+            'title': forms.TextInput(attrs={"class": "form-control"}),
             'info': forms.TextInput(attrs={"class": "form-control"}),
         }
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'email', 'password1', 'password2']
+
+    def __init__(self, *args, **kwargs):
+        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['email'].widget.attrs['class'] = 'form-control'
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
+        self.fields['password2'].widget.attrs['class'] = 'form-control'

@@ -1,8 +1,17 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm, RegisterForm, Comments, NewPost
-from .models import User,Post, Comment, Category
-from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
+from rest_framework import viewsets, permissions,generics, status
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from .serializers import PostSerializer, CommentSerializer,  UserSerializer
+from .models import Post, Comment, Category
+from .forms import LoginForm, CustomUserCreationForm, Comments, NewPost
+
 
 # main_page
 def main_page(request):
@@ -74,41 +83,84 @@ def deletecomment(request,id):
     except:
         ValueError
 
-
 # Login page
-def login(request):
-
-    data = {
-        'form': LoginForm()
-    }
-
+def login_view(request):
     if request.method == 'POST':
-        formulario = LoginForm(request.POST)
-        if formulario.is_valid():
-            formulario.save()
-            return redirect('nombreApp:index') #redireccionar a home
-        else:
-            data["form"] = formulario
-    return render(request, 'app/registration/login.html', data)
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('nombreApp:index')  # Cambia 'index' al nombre de tu vista principal
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
 
-def register(request):
-
-    data = {
-        'form': RegisterForm()
-    }
+# Register page
+def register_view(request):
     if request.method == 'POST':
-        formulario = RegisterForm(data=request.POST)
-        if formulario.is_valid():
-            username = request.POST['username']
-            email = request.POST['user_email']
-            password = request.POST['password']
-            try:
-                User.objects.create_user(username,email,password)
-                formulario.save()
-                return redirect('/accounts/login') #redireccionar a home
-            except:
-                ValueError
-                data["mensaje"] = "Usuario ya existente!"
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('nombreApp:index')  # Cambia 'index' al nombre de tu vista principal
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'app/register.html', {'form': form})
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(userId=self.request.user)
+
+    def perform_update(self, serializer):
+        post = Post.objects.get(pk=self.kwargs['pk'])
+        if post.userId == self.request.user:
+            serializer.save()
         else:
-            data["form"] = formulario
-    return render(request, 'app/register.html', data)
+            raise PermissionDenied("You are not allowed to edit this post.")
+
+    def perform_destroy(self, instance):
+        if instance.userId == self.request.user:
+            instance.delete()
+        else:
+            raise PermissionDenied("You are not allowed to delete this post.")
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(userId=self.request.user)
+
+    def perform_update(self, serializer):
+        comment = Comment.objects.get(pk=self.kwargs['pk'])
+        if comment.userId == self.request.user:
+            serializer.save()
+        else:
+            raise PermissionDenied("You are not allowed to edit this comment.")
+
+    def perform_destroy(self, instance):
+        if instance.userId == self.request.user:
+            instance.delete()
+        else:
+            raise PermissionDenied("You are not allowed to delete this comment.")
+
+class CreateUserView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class CustomObtainAuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
