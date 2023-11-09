@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'app',
     'crispy_forms',
     'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

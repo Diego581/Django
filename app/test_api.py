@@ -19,3 +19,4 @@ def test_create_post_authenticated(api_client, create_user):
 def test_create_post_unauthenticated(api_client):
     response = api_client.post('/api/posts/', {'title': 'New Post', 'info': 'Post information'})
     assert response.status_code == 403
+

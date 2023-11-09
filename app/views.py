@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
 from .forms import LoginForm, RegisterForm, Comments, NewPost
-from .models import User,Post, Comment, Category
+from .models import Post, Comment, Category
 from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
-from .models import User, Post, Comment, Category
-from .serializers import UserSerializer, PostSerializer, CommentSerializer, CategorySerializer
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
+from .serializers import  PostSerializer, CommentSerializer, CategorySerializer, CustomUserSerializer
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 # main_page
@@ -86,8 +87,8 @@ def register(request):
         formulario = RegisterForm(data=request.POST)
         if formulario.is_valid():
             username = request.POST['username']
-            email = request.POST['user_email']
-            password = request.POST['password']
+            email = request.POST['email']
+            password = request.POST['password1']
             try:
                 User.objects.create_user(username,email,password)
                 formulario.save()
@@ -99,34 +100,43 @@ def register(request):
             data["form"] = formulario
     return render(request, 'app/register.html', data)
 
-#view set de user
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-#view set de post
-class PostViewSet(viewsets.ModelViewSet):
+class PostListCreateView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-#view set de comment
-class CommentViewSet(viewsets.ModelViewSet):
+class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+class CommentListCreateView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
-#view set de category
-class CategoryViewSet(viewsets.ModelViewSet):
+class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+class CategoryListCreateView(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 
-#Autenticacion
-class PostViewSet(viewsets.ModelViewSet):
-    ...
-    authentication_classes = [TokenAuthentication]
+class RegisterView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = CustomUserSerializer
 
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            self.permission_classes = [IsAuthenticated, ]
-        return super(PostViewSet, self).get_permissions()
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        refresh = RefreshToken.for_user(user)
+        data = {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
+        return Response(data)
 
