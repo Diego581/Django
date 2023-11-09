@@ -21,7 +21,7 @@ class CommentTests(APITestCase):
 
     def test_update_comment(self):
         comment = Comment.objects.create(userId=self.user, postId=self.post, comment='Comentario original')
-        data = {'comment': 'Comentario actualizado'}
+        data = {'postId': self.post.id, 'comment': 'Comentario actualizado'}
         response = self.client.put(f'/api/comments/{comment.id}/', data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
